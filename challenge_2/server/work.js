@@ -33,7 +33,7 @@ var parseToCSV = function(json) {
       }
     }
     first.push('Parent_ID');
-    return first.join(',');
+    return first.join(', &nbsp;');
   }
 
   var recursivelyParse = function (obj, parentID) {
@@ -64,7 +64,7 @@ var parseToCSV = function(json) {
     var sortedArray = [];
     sortedArray.push(tableHeader);
     tableRows.forEach((e) => {
-      sortedArray.push(e.join(','));
+      sortedArray.push(e.join(', &nbsp;'));
     });
 
     return sortedArray;
