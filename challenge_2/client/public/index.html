@@ -23,7 +23,7 @@
     var getData = function() {
       axios.get('/receive')
         .then(results => {
-          var parsedData = JSON.stringify(results.data);
+          var parsedData = JSON.stringify(results.data).slice(1, -1);
           $('#output').empty().append(parsedData);
         })
         .catch(err => console.log('err fetching data'))
@@ -48,7 +48,6 @@
       if (upload[upload.length - 1] === ';') {
         upload = upload.slice(0, -1);
       }
-
       if (upload.length > 0) {
         // var uploadString = JSON.stringify(upload);
         postData(upload);

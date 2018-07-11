@@ -4,7 +4,7 @@ var addData = function(json, callback) {
   if (!json) {
     callback('No data provided!');
   } else {
-    data.push(json);
+    data.push(parseToCSV(json));
     callback(null, 'Data successfully added');
   }
 };
@@ -20,10 +20,12 @@ var getLatest = function(callback) {
 }
 
 var parseToCSV = function(json) {
-  var all;
+  var all = [];
+  var uniqueId = 0;
 
   var getTableHeader = function(obj) {
     var first = [];
+    first.push('Unique Id');
     var allKeys = Object.keys(obj);
     for (var i = 0; i < allKeys.length; i++) {
       if (allKeys[i] !== 'children') {
@@ -33,20 +35,25 @@ var parseToCSV = function(json) {
     return first;
   }
 
-  all = getTableHeader(json);
+  all.push(getTableHeader(json).join(','));
 
-  var recursivelyParse(iterable) {
-    if(Array.isArray(iterable)) {
-      //it's an array
-    } else {
-      //it's an object
-      for (keys in obj) {
-        
+  var recursivelyParse = function (obj) {
+    var innerArray = [];
+    for (key in obj) {
+      if (key !== 'children') {
+        innerArray.push(obj[key]);
+      } else if (key === 'children' && obj[key].length > 0) {
+        for (var j = 0; j < obj[key].length; j++){
+          recursivelyParse(obj[key][j]);
+        }
       }
     }
+    all.push(innerArray.join(','));
   }
 
+  recursivelyParse(json);
 
+  return all.join(' <br />');
 }
 
 module.exports = {
