@@ -1,0 +1,64 @@
+<html language="english">
+  <head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="input">
+      <form>
+        <textarea id="jsondata" rows="30" cols="90" maxlength="10000" wrap="hard" placeholder="Copy and paste your JSON here..."></textarea>
+        <button>Submit JSON</input>
+      </form>
+    </div>
+    <div id="output">
+      <h2> Submit JSON above to format CSV </h2>
+    </div>
+
+  <script>
+    //set Axios headers
+    var axiosConfig = {
+      headers: {'Content-Type': 'application/json'}
+    };
+
+    var getData = function() {
+      axios.get('/receive')
+        .then(results => {
+          var parsedData = JSON.stringify(results.data);
+          $('#output').empty().append(parsedData);
+        })
+        .catch(err => console.log('err fetching data'))
+    };
+
+    var postData = function(data) {
+      axios.post('/submit', data, axiosConfig)
+        .then(function (response) {
+          console.log(response);
+          getData(); //get data after each post
+
+        })
+        .catch(function (error) {
+        })
+    };
+
+    //prevent page from reloading on button click
+    //while also posting (and getting data)
+    $('form').on('submit', function(e){
+      e.preventDefault();
+      var upload = $('#jsondata').val().trim();
+      if (upload[upload.length - 1] === ';') {
+        upload = upload.slice(0, -1);
+      }
+
+      if (upload.length > 0) {
+        // var uploadString = JSON.stringify(upload);
+        postData(upload);
+      } else {
+        console.log('No data inputed');
+      }
+    });
+
+
+
+  </script>
+  </body>
+<html>
