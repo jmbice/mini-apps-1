@@ -3,7 +3,7 @@ const express = require('express');
 const db = require('../db/mysqlConnect.js');
 const app = express();
 
-app.use('/', express.static(path.join(__dirname, '../client/public')))
+app.use('/', express.static(path.join(__dirname, '../public')))
 
 //middleware
 app.use(function(req, res, next){
@@ -12,7 +12,7 @@ app.use(function(req, res, next){
 });
 
 //get request
-app.get('/get', (req, res) => {
+app.get('/', (req, res) => {
   db.query('SELECT * FROM user_login', function (error, results) {
     if (error) throw error;
     console.log('The solution is: ', results);
@@ -20,10 +20,13 @@ app.get('/get', (req, res) => {
 });
 
 //post request
-app.post('/post', (req, res) => {
+app.post('/', (req, res) => {
   db.query('INSERT INTO user_login (name, email, password) VALUES ("Jordan", "jmbice@gmail", "nope");', function(err, results) {
-    if (err) throw err;
-    console.log('Insert of data was successful! Noice!');
+    if (err) {
+      console.log('this is the error:', err);
+    } else {
+      console.log('Insert of data was successful! Noice!');
+    }
   });
 })
 ///goes here
