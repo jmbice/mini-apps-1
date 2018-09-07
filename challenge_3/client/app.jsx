@@ -8,9 +8,10 @@ const FormShell = (props) => {
       <div>
         <form>
           <h3>Account Details</h3>
-          Name: <input onChange={props.handleChange} name="name" type="text"></input> <br />
-          {fullState.name} <br />
+          Name: <input onChange={props.handleChange} name="user_name" type="text"></input> <br />
+          {fullState.user_name} <br />
           Email: <input onChange={props.handleChange} name="email" type="text"></input> <br />
+          {fullState.email} <br />
           Password: <input type="text"></input> <br />
         </form>
         <button onClick={props.passedHandleNextClick}>Next</button>
@@ -20,17 +21,18 @@ const FormShell = (props) => {
   } else if (currentView === 2) {
     return (
       <div>
-        <form>
+        <div>
           <h3>Delivery Address:</h3>
           Address: <input type="text" name="address1"></input> <br />
-          Address (optional): <input type="text"></input> <br />
+          {fullState.address1} <br />
+          Address (optional): <input type="text" name=""></input> <br />
           City: <input type="text"></input> <br />
           State: <input type="text"></input> <br />
           Zip: <input type="text"></input> <br />
           <h3>Phone</h3>
 
           Your Phone Number: <input type="text"></input>
-        </form>
+        </div>
         <button onClick={props.passedHandlePreviousClick}>Previous</button>
         <button onClick={props.passedHandleNextClick}>Next</button>
 
@@ -40,9 +42,9 @@ const FormShell = (props) => {
   } else if (currentView === 3) {
     return (
       <div>
-      <form>
+      <div>
         <h3>Payment Information:</h3>
-        Credit Card: <input type="text"></input> <br />
+        Credit Card: <input type="text" name="cc"></input> <br />
         CVV: <input type="text"></input> <br />
         Expiration Date: <input type="text"></input>
 
@@ -53,7 +55,7 @@ const FormShell = (props) => {
         State: <input type="text"></input> <br />
         Zip: <input type="text"></input> <br />
         Your Phone Number: <input type="text"></input>
-      </form>
+      </div>
         <button onClick={props.passedHandlePreviousClick}>Previous</button>
         <button onClick={props.passedHandleNextClick}>Next</button>
       </div>
@@ -63,7 +65,7 @@ const FormShell = (props) => {
     return (
       <div>
         <h3>Account Details</h3>
-        Name: {fullState.name} <br />
+        Name: {fullState.user_name} <br />
         Email: {fullState.email} <br />
         Password: {fullState.password} <br />
 
@@ -83,11 +85,11 @@ const FormShell = (props) => {
         Expiration Date:{fullState.exp}
 
         <h3>Billing Address:</h3>
-        Address: {fullState.billingAddres.address1} <br />
-        Address {fullState.billingAddres.address2} <br />
-        City: {fullState.billingAddres.city} <br />
-        State: {fullState.billingAddres.state} <br />
-        Zip: {fullState.billingAddres.zip} <br /><br />
+        Address: {fullState.b_address1} <br />
+        Address {fullState.b_address2} <br />
+        City: {fullState.b_city} <br />
+        State: {fullState.b_state} <br />
+        Zip: {fullState.b_zip} <br /><br />
 
         <button onClick={props.passedHandlePreviousClick}>Previous</button>
         <button> Submit </button>
@@ -103,7 +105,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentView: 1,
-      name: '',
+      user_name: '',
       email: '',
       password: '',
       address1: '',
